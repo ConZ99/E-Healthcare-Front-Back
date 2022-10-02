@@ -7,6 +7,8 @@ using Swashbuckle.AspNetCore.Filters;
 using Microsoft.AspNetCore.Cors;
 using ProiectFinal.Data;
 using ProiectFinal.Controllers.Services.UserService;
+using ProiectFinal.Controllers.Services.TokenManager;
+using ProiectFinal.Controllers.Services.DateTimeService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +24,8 @@ builder.Services.AddDbContext<DataContext>(options =>
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ITokenManager, TokenManager>();
+builder.Services.AddScoped<IDateTimeProvider, DateTimeProvider>();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddSwaggerGen(options =>

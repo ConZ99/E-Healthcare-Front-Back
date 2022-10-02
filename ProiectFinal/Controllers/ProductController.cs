@@ -63,12 +63,18 @@ namespace ProiectFinal.Controllers
             {
                 return BadRequest();
             }
-
-            _context.Entry(product).State = EntityState.Modified;
+            var prod = await _context.Products.FindAsync(id);
+            prod.Quantity = product.Quantity;
+            prod.Price = product.Price; 
+            prod.Description = product.Description;
+            prod.Uses = product.Uses;
+            prod.ExpireDate = product.ExpireDate;
+            prod.CompanyName = product.CompanyName;
+            prod.Name = product.Name;
 
             await _context.SaveChangesAsync();
 
-            return Ok(product);
+            return Ok(prod);
         }
 
         [HttpPost("addProduct")]
@@ -95,7 +101,7 @@ namespace ProiectFinal.Controllers
 
         [HttpDelete("deleteProduct/{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<List<Product>>> DeleteAccountById(int id)
+        public async Task<ActionResult<List<Product>>> DeleteProductById(int id)
         {
             var dbProduct = await _context.Products.FindAsync(id);
             if (dbProduct == null)

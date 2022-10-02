@@ -93,9 +93,8 @@ namespace ProiectFinal.Controllers
         {
             var userId = int.Parse(_userService.GetMyId());
             var checkProd = await _context.Products.FirstOrDefaultAsync(p => p.Id == productId);
-            var checkUser = await _context.Accounts.FirstOrDefaultAsync(u => u.Id == userId);
 
-            if (checkProd == null || checkUser == null)
+            if (checkProd == null)
             {
                 return BadRequest(JsonConvert.SerializeObject(new { message = "Product or user not found." }));
             }
@@ -120,7 +119,6 @@ namespace ProiectFinal.Controllers
                 checkProd.Quantity--;
 
                 _context.Carts.Add(newCart);
-                _context.Entry(checkProd).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
 
                 return Ok(newCart);
@@ -128,11 +126,8 @@ namespace ProiectFinal.Controllers
 
             cart.Quantity++;
             cart.TotalPrice += checkProd.Price;
-
             checkProd.Quantity--;
 
-            _context.Entry(cart).State = EntityState.Modified;
-            _context.Entry(checkProd).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return Ok(cart);
@@ -144,9 +139,8 @@ namespace ProiectFinal.Controllers
         {
             var userId = int.Parse(_userService.GetMyId());
             var checkProd = await _context.Products.FirstOrDefaultAsync(p => p.Id == productId);
-            var checkUser = await _context.Accounts.FirstOrDefaultAsync(u => u.Id == userId);
 
-            if (checkProd == null || checkUser == null)
+            if (checkProd == null)
             {
                 return BadRequest(JsonConvert.SerializeObject(new { message = "Product or user not found." }));
             }
@@ -167,12 +161,7 @@ namespace ProiectFinal.Controllers
             {
                 _context.Carts.Remove(cart);
             }
-            else
-            {
-                _context.Entry(cart).State = EntityState.Modified;
-            }
 
-            _context.Entry(checkProd).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return Ok(cart);

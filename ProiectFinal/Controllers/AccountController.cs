@@ -42,28 +42,6 @@ namespace ProiectFinal.Controllers
             return Ok(account);
         }
 
-        [HttpPost("editAccount/{id}")]
-        [Authorize(Roles = "Admin,User")]
-        public async Task<ActionResult<Account>> EditAccountById(Account newAccount, int id)
-        {
-            var oldAccount = await _context.Accounts.FindAsync(id);
-            if (oldAccount == null)
-                return BadRequest(JsonConvert.SerializeObject(new { message = "Account not found." }));
-
-            oldAccount.FirstName = newAccount.FirstName;
-            oldAccount.LastName = newAccount.LastName;
-            oldAccount.Email = newAccount.Email;
-            oldAccount.DateOfBirth = newAccount.DateOfBirth;
-            oldAccount.Phone = newAccount.Phone;
-            oldAccount.Address = newAccount.Address;
-            oldAccount.Funds = newAccount.Funds;
-
-            _context.Entry(oldAccount).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-
-            return Ok(oldAccount);
-        }
-
         [HttpPost("editOwnAccount")]
         [Authorize(Roles = "Admin,User")]
         public async Task<ActionResult<Account>> EditOwnAccount(EditDto newAccount)

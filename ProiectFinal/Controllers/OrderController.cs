@@ -71,6 +71,9 @@ namespace ProiectFinal.Controllers
             }
 
             Account? account = await _context.Accounts.FindAsync(userId);
+            if (account == null)
+                return BadRequest(JsonConvert.SerializeObject(new { message = "No user" }));
+
             double price = 0;
             foreach (Cart? cart in carts)
             {
@@ -86,16 +89,17 @@ namespace ProiectFinal.Controllers
 
             string productNames = "";
             Order? order = new Order();
-            foreach (Cart? cart in carts)
+            foreach (Cart? cartItem in carts)
             {
-                _context.Carts.Remove(cart);
-                Product? product = await _context.Products.FindAsync(cart.ProductId);
+                
+                Product? product = await _context.Products.FindAsync(cartItem.ProductId);
                 if (product != null)
                 {
                     productNames += product.Name + " ";
                 }
 
-                order.TotalPrice += cart.TotalPrice;
+                order.TotalPrice += cartItem.TotalPrice;
+                _context.Carts.Remove(cartItem);
             }
 
             order.ProductNames = productNames;
@@ -103,13 +107,8 @@ namespace ProiectFinal.Controllers
             order.Status = "Pending delivery";
             order.DateTime = DateTime.UtcNow;
 
-            account = await _context.Accounts.FindAsync(userId);
-            if (account != null)
-            {
-                account.Funds -= order.TotalPrice;
-                _context.Entry(account).State = EntityState.Modified;
-            }
-
+            
+            account.Funds -= order.TotalPrice;
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
 

@@ -21,8 +21,7 @@ export class Login extends Component {
                     email: this.state.email,
                     password: this.state.password
                 }
-                let url = "/Auth/login";
-                const response = await fetch(url, {
+                const response = await fetch("/Auth/login", {
                     method: 'POST',
                     headers: {
                         'accept': 'text/plain',
