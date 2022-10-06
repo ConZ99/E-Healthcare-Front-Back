@@ -121,12 +121,11 @@ namespace BackendTest
                 .With(x => x.Id, 10)
                 .With(x => x.Uses, "test").Create();
             context.Products.Add(product);
+            context.SaveChanges();
 
             var edit = fixture.Build<Product>()
                 .With(x => x.Name, "ProductEdited")
                 .With(x => x.Id, 10).Create();
-
-            context.SaveChanges();
 
             var userService = fixture.Create<Mock<IUserService>>();
 
@@ -137,7 +136,7 @@ namespace BackendTest
 
             //ASSERT
             var result = (response.Result as dynamic).Value;
-            Assert.AreEqual(result.Name, "ProductEdited");
+            Assert.AreEqual(result.Name, edit.Name);
         }
 
         [Test, AutoData]

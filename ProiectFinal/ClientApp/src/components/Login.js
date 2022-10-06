@@ -92,7 +92,7 @@ export class Login extends Component {
                 <input type="email" id="txtEmail" placeholder='Enter Email' onChange={(e) => this.handleEmailChange(e.target.value)} /><br></br>
                 <label>Password</label><br></br>
                 <input type="password" id="txtPass" placeholder='Enter Pasword' onChange={(e) => this.handlePasswordChange(e.target.value)} /><br></br>
-                <button onClick={() => this.handleSave()}> Save </button>
+                <button onClick={() => this.handleSave()}> Login </button>
             </Fragment>
         );
     }

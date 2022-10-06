@@ -85,7 +85,7 @@ export class Register extends Component {
 
         return (
             <Fragment>
-                <div>Register</div>
+                <h1>Register</h1>
                 { content }
                 <label>First name</label><br></br>
                 <input type="text" id="txtFirstName" placeholder='Enter First Name' onChange={(e) => this.handleFirstNameChange(e.target.value)} /><br></br>

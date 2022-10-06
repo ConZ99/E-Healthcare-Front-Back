@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { format } from 'date-fns'
+import { format } from 'date-fns';
 
 export class Order extends Component {
     static displayName = Order.name;
@@ -43,8 +43,8 @@ export class Order extends Component {
 
         return (
             <div>
-                <h1 id="tabelLabel" >Products in cart list</h1>
-                <p>This is a list of all products in your cart.</p>
+                <h1 id="tabelLabel" >List of previous orders</h1>
+                <p>This is a list of all your previous orders.</p>
                 {contents}
             </div>
         );

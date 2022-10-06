@@ -6,7 +6,7 @@ export class Home extends Component {
   render() {
     return (
         <div>
-            <h1>Hello snookums and welcome to the new and unique E-Healthcare platform!</h1>
+            <h1>Hello and welcome to the new and unique E-Healthcare platform!</h1>
         </div>
     );
   }

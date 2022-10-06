@@ -35,8 +35,6 @@ namespace BackendTest
             var tokenManagerMock = fixture.Create<Mock<ITokenManager>>();
             tokenManagerMock.Setup(x => x.CreateToken(It.IsAny<Account>())).Returns("Token");
             tokenManagerMock.Setup(x => x.VerifyPasswordHash(It.IsAny<string>(), It.IsAny<byte[]>(), It.IsAny<byte[]>())).Returns(true);
-            //var dateTimeProviderMock = fixture.Create<Mock<IDateTimeProvider>>();
-            //dateTimeProviderMock.Setup(x => x.UtcNow()).Returns(new DateTime(2022, 09, 30));
 
             var sut = new AuthController(context, userService.Object, tokenManagerMock.Object);
 
@@ -72,8 +70,6 @@ namespace BackendTest
             userService.Setup(x => x.GetMyName()).Returns("test@test.com");
             userService.Setup(x => x.GetMyRole()).Returns("0");
             var tokenManagerMock = fixture.Create<Mock<ITokenManager>>();
-            //var dateTimeProviderMock = fixture.Create<Mock<IDateTimeProvider>>();
-            //dateTimeProviderMock.Setup(x => x.UtcNow()).Returns(new DateTime(2022, 09, 30));
 
             var sut = new AuthController(context, userService.Object, tokenManagerMock.Object);
 
@@ -93,27 +89,14 @@ namespace BackendTest
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking).Options;
             var context = new DataContext(contextOptions);
 
-            var account = fixture.Build<Account>()
-                .With(x => x.Email, "test@test.com")
-                .With(x => x.Id, 0).Create();
-
-            var registerDto = fixture.Build<RegisterDto>().Create();
-
-            context.Accounts.Add(account);
-            context.SaveChanges();
-
             var userService = fixture.Create<Mock<IUserService>>();
-            userService.Setup(x => x.GetMyId()).Returns("1");
-            userService.Setup(x => x.GetMyName()).Returns("test@test.com");
-            userService.Setup(x => x.GetMyRole()).Returns("0");
 
             var tokenManagerMock = fixture.Create<Mock<ITokenManager>>();
             tokenManagerMock.Setup(x => x.CreatePasswordHash(It.IsAny<string>()))
                 .Returns((fixture.Create<byte[]>(), fixture.Create<byte[]>()));
             tokenManagerMock.Setup(x => x.VerifyEmail(It.IsAny<string>())).ReturnsAsync(true);
 
-            //var dateTimeProviderMock = fixture.Create<Mock<IDateTimeProvider>>();
-            //dateTimeProviderMock.Setup(x => x.UtcNow()).Returns(new DateTime(2022, 09, 30));
+            var registerDto = fixture.Build<RegisterDto>().Create();
 
             var sut = new AuthController(context, userService.Object, tokenManagerMock.Object);
 
